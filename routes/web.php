@@ -14,7 +14,14 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-Route::get('/', [TaskController::class, 'index'])->name('dashboard');
+Route::get('/', function () {
+    return view('home');
+});
+Route::get('/notes', function () {
+    return view('notes.home');
+});
+
+Route::get('/aktivitetet', [TaskController::class, 'index'])->name('dashboard');
 Route::get('/tasks', [TaskController::class, 'create'])->name('tasks.create');
 Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
 Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');

@@ -3,7 +3,7 @@
 @section('content')
 <!-- Resti i kodit tuaj -->
 <!-- main card -->
-<div class="bg-cover bg-center flex items-center justify-around content-start flex-no-wrap flex-row" style="background-image: url('https://media.istockphoto.com/id/1320306462/video/4k-abstract-luxury-black-grey-gradient-backgrounds-with-diagonal-golden-metallic-stripes.jpg?s=640x640&k=20&c=zwBGZfYlbYVMNcnJirViOlEOFHLkPJeg9z-HvfLr77Y=">
+<div class="bg-cover bg-center bg-indigo-600 flex items-center justify-around content-start flex-no-wrap flex-row" >
 
     <div class="flex flex-col justify-center items-left text-center">
         <div class="max-w-sm text-white text-center font-bold font-sans">
