@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -41,8 +41,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function isAdmin()
+public function isAdmin()
 {
-    return $this->role === 1;
+    return $this->hasOne(Role::class, 'id', 'role_id')->where('name', 'admin');
 }
+
 }
