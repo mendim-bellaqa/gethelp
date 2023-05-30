@@ -8,14 +8,24 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\TaskController;
 class RegisterController extends Controller
 {
-    protected function create(Request $request)
-    {
-        return User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'role_id' => 0, // ID e roliut të përdoruesit
-        ]);
+    protected function create(array $data)
+{
+    $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+        'role' => 0, // Përdorues i thjesht
+    ]);
+
+    // Shto detyrat për përdoruesin e ri nëse ka të dhëna të dhëna për detyrat në $data
+    if (isset($data['tasks'])) {
+        foreach ($data['tasks'] as $taskData) {
+            $user->tasks()->create($taskData);
+        }
     }
+
+    return $user;
+}
+
     
 }

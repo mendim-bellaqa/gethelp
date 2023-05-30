@@ -40,7 +40,8 @@ Route::get('/register', [App\Http\Controllers\RegisterController::class, 'showRe
 Route::post('/register', [App\Http\Controllers\RegisterController::class, 'register']);
 
 Route::middleware('admin')->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
+
 });
 
 Route::prefix('tasks')->group(function () {
@@ -53,4 +54,3 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

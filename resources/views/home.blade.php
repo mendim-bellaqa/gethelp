@@ -25,37 +25,36 @@
                 </div>
             </div>
             <div class="flex flex-col md:flex-row hidden md:block -mx-2">
-                @guest
-                    <a href="/login" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Login</a>
-                    <a href="/register" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Register</a>
-                @else
-                    @if(auth()->user()->isAdmin)
-                        <a href="#" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">{{ auth()->user()->name }}</a>
-                        <a href="/dashboard" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Dashboard</a>
-                    @else
-                        <a href="#" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">{{ auth()->user()->name }}</a>
-                    @endif
+            @guest
+                <a href="/login" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Login</a>
+                <a href="/register" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Register</a>
+            @else
+                <a href="#" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">{{ auth()->user()->name }}</a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @if(auth()->user()->role == 1)
+                    <a href="/admin/dashboard" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Admin Dashboard</a>
+                @endif
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                     <button type="submit">Logout</button>
                 </form>
 
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        Logout
-                    </a>
-                @endguest
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+            @endif
+
+
             </div>
         </div>
     </nav>
     
     <div class="relative">
-        <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-green-400">
+        <!-- <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-green-400">
             <h1 class="text-4xl">Ditari</h1>
             <a href="/notes">      
             <p>Vazhdo</p>
             </a>
-        </div>
+        </div> -->
         <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-indigo-600 text-white">
             <h1 class="text-4xl">Aktivitetet</h1>
             <a href="/aktivitetet">      

@@ -18,8 +18,8 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('_token')->nullable();
-
             $table->timestamp('due_date');
+            $table->foreignId('user_id')->nullable()->constrained('users');
             $table->timestamps();
         });
     }

@@ -9,10 +9,19 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::orderBy('due_date')->get();
-        return view('tasks.index', compact('tasks'));
+        if (auth()->check()) {
+            $user = auth()->user();
+            if ($user->isAdmin()) {
+                $tasks = Task::orderBy('due_date')->get();
+            } else {
+                $tasks = $user->tasks()->orderBy('due_date')->get();
+            }
+            return view('tasks.index', compact('tasks'));
+        }
+    
+        return redirect()->route('login');
     }
-
+    
     public function create()
     {
         return view('tasks.create');
@@ -25,12 +34,30 @@ class TaskController extends Controller
             'description' => 'required',
             'due_date' => 'required',
         ]);
+    
+        $user = auth()->user();
+        
+        if (!$user->isAdmin()) {
+            $taskData = $request->except('_token');
+            $taskData['user_id'] = $user->id;
+        
+            Task::create($taskData);
+        
+            return redirect()->route('dashboard')->with('success', 'Detyra u shtua me sukses.');
+        }
+        else if ( !$user->isSimpleUser()) {
+            $taskData = $request->except('_token');
+            $taskData['user_id'] = $user->id;
+        
+            Task::create($taskData);
+        
+            return redirect()->route('dashboard')->with('success', 'Detyra u shtua me sukses.');
 
-        Task::create($request->all());
-
-        return redirect()->route('dashboard')->with('success', 'Detyra u shtua me sukses.');
+        }
+        
+        return redirect()->route('login');
     }
-
+    
     public function edit(Task $task)
     {
         return view('tasks.edit', compact('task'));

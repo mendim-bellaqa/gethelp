@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Models;
-use App\Models\Role;
+
+use App\Models\Task;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -41,9 +42,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-public function isAdmin()
-{
-    return $this->hasOne(Role::class, 'id', 'role_id')->where('name', 'admin');
-}
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+    public function isAdmin()
+    {
+        return $this->role == 1;
+    }
+    
 
 }
