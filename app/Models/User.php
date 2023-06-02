@@ -51,6 +51,9 @@ class User extends Authenticatable
     {
         return $this->role == 1;
     }
-    
+    public function isSimpleUser()
+    {
+        return $this->role == 0;
+    }
 
 }

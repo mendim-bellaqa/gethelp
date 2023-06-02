@@ -9,7 +9,7 @@
 <body>
 <!-- component -->
 <div class="w-full">
-<nav class="bg-green-200 w-full sticky top-0 fixed shadow-lg" style="z-index: 9999;">
+<nav class="bg-yellow-300 w-full sticky top-0 fixed shadow-lg" style="z-index: 9999;">
         <div class="md:flex items-center justify-between py-2 px-8 md:px-12">
             <div class="flex justify-between items-center">
                 <div class="text-2xl font-bold text-gray-800 md:text-3xl">
@@ -55,10 +55,10 @@
             <p>Vazhdo</p>
             </a>
         </div> -->
-        <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-indigo-600 text-white">
-            <h1 class="text-4xl">Aktivitetet</h1>
+        <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-yellow-400 text-white">
+            <h1 class="text-4xl text-black bold font-extralight">Aktivitetet</h1>
             <a href="/aktivitetet">      
-            <p>Vazhdo</p>
+            <p class="text-black">Vazhdo</p>
             </a>
         </div>
     </div>
