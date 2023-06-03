@@ -24,21 +24,21 @@
         <input type="password" id="password" class="bg-gray-200 pl-12 py-2 md:py-4 focus:outline-none w-full" name="password" required autocomplete="current-password" placeholder="Password">
       </div>
       <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-6 mb-5 justify-content-center text-center offset-md-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                     <label class="form-check-label" for="remember">
                                         {{ __('Remember Me') }}
                                     </label>
-                                    
+<!--                                     
                                     <label class="form-check-label ml-5 " for="remember">
                                         @if (Route::has('password.request'))
                                             <a class="btn btn-link" href="{{ route('password.request') }}">
                                                 {{ __('Forgot Your Password?') }}
                                             </a>
                                         @endif    
-                                    </label>
+                                    </label> -->
                                 </div>
                             </div>
                         </div>

@@ -28,35 +28,27 @@ class TaskController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'due_date' => 'required',
-        ]);
-    
-        $user = auth()->user();
-        
-        if (!$user->isAdmin()) {
-            $taskData = $request->except('_token');
-            $taskData['user_id'] = $user->id;
-        
-            Task::create($taskData);
-        
-            return redirect()->route('dashboard')->with('success', 'Detyra u shtua me sukses.');
-        }
-        else if ( !$user->isSimpleUser()) {
-            $taskData = $request->except('_token');
-            $taskData['user_id'] = $user->id;
-        
-            Task::create($taskData);
-        
-            return redirect()->route('dashboard')->with('success', 'Detyra u shtua me sukses.');
+        {
+            $request->validate([
+                'title' => 'required',
+                'description' => 'required',
+                'due_date' => 'required',
+            ]);
 
+            $user = auth()->user();
+
+            if (!$user->isSimpleUser()) {
+                $taskData = $request->except('_token');
+                $taskData['user_id'] = $user->id;
+
+                Task::create($taskData);
+
+                return redirect()->route('dashboard')->with('success', 'Detyra u shtua me sukses.');
+            }
+
+            return redirect()->route('login');
         }
-        
-        return redirect()->route('login');
-    }
+
     
     public function edit(Task $task)
     {
