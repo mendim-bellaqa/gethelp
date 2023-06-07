@@ -11,11 +11,13 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'title',
         'description',
         'due_date',
         '_token',
     ];
+    
 
     public function daysUntilDueDate()
     {
