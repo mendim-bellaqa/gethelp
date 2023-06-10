@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class CreateTasksTable extends Migration
 {
@@ -20,10 +20,10 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('_token')->nullable();
             $table->timestamp('due_date');
+            $table->time('due_time')->nullable(); // New column for due time
             $table->foreignId('user_id')->constrained('users');
-            $table->timestamps();
+            $table->timestamps(); // created_at and updated_at columns
         });
     }
 
@@ -47,13 +47,14 @@ class AddTaskSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::find($this->user->id);// Merr përdoruesin aktual të autentikuar
-
+        $user = User::find(auth()->user()->id); // Get the currently authenticated user
+        
         DB::table('tasks')->insert([
             'title' => 'dsd',
             'description' => 'sdsd',
             'due_date' => '2023-06-10',
-            'user_id' => $user->id, // Vendos ID e përdoruesit aktual si user_id
+            'due_time' => '12:00:00', // Set the due time
+            'user_id' => $user->id, // Set the user_id to the currently authenticated user's ID
             'created_at' => now(),
             'updated_at' => now(),
         ]);

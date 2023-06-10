@@ -26,13 +26,13 @@
             </div>
             <div class="flex flex-col md:flex-row hidden md:block -mx-2">
             @guest
-                <a href="/login" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Login</a>
-                <a href="/register" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Register</a>
+            <a href="/login" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Lidhu</a>
+                <a href="/register" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Regjistrohu</a>
             @else
                 <a href="#" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">{{ auth()->user()->name }}</a>
 
                 @if(auth()->user()->role == 1)
-                    <a href="/admin/dashboard" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Admin Dashboard</a>
+                    <a href="/admin/dashboard" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Admin Panel</a>
                 @endif
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -40,7 +40,7 @@
                     <button type="submit">Logout</button>
                 </form>
 
-                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Shkycu</a>
             @endif
 
 
@@ -48,16 +48,16 @@
         </div>
     </nav>
     
-    <div class="h-screen bg-yellow-600 flex justify-center items-center">
+<div class="h-screen bg-yellow-600 flex justify-center items-center">
     <div class="max-w-3xl mx-auto px-4 text-white sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-white text-center mb-5">Shto një detyrë</h2>
-        <form action="{{ route('tasks.store') }}" method="POST">
+        <form action="{{ route('tasks.store') }}" class="md:p-8" method="POST">
             @csrf
-            <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex flex-col md:flex-row gap-8 md:p-8">
                 <div class="flex-1">
                     <label for="title" class="block text-white font-semibold mb-2">Titulli i detyrës</label>
                     <input type="text" name="title" id="title"
-                        class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        class="w-full text-black h-80 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
                 <div class="flex-1">
                     <label for="description" class="block text-white font-semibold mb-2">Përshkrimi i detyrës</label>
@@ -71,6 +71,19 @@
                     <input type="date" name="due_date" id="due_date"
                         class="w-full text-white rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
+            </div>
+
+
+            
+            <div class="flex flex-col md:flex-row gap-4 mt-4">
+                <label for="due_time" class="block text-white font-semibold mb-2">{{ __('Ora e skadencës') }}</label>
+                <input id="due_time" type="time" class="w-full text-white rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('due_time') is-invalid @enderror" name="due_time" value="{{ old('due_time') }}" required>
+                
+                @error('due_time')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
             <div class="flex justify-center mt-6">
                 <button type="submit"

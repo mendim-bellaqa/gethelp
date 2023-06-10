@@ -24,4 +24,8 @@ class Task extends Model
         $dueDate = Carbon::createFromFormat('Y-m-d', $this->due_date);
         return $dueDate->diffInDays(Carbon::now());
     }
+    public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
 }

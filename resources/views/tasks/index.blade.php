@@ -31,27 +31,24 @@
                 </div>
                 <div class="flex flex-col md:flex-row hidden md:block -mx-2">
                     @guest
-                    <a href="/login"
-                        class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Login</a>
-                    <a href="/register"
-                        class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Register</a>
+                    <a href="/login" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Lidhu</a>
+                <a href="/register" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Regjistrohu</a>
                     @else
                     <a href="#"
                         class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">{{ auth()->user()->name }}</a>
 
                     @if(auth()->user()->role == 1)
                     <a href="/admin/dashboard"
-                        class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Admin
-                        Dashboard</a>
+                        class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Admin panel</a>
                     @endif
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
-                        <button type="submit">Logout</button>
+                        <button type="submit">Shkycu</button>
                     </form>
 
                     <a href="#"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Shkycu</a>
                     @endif
                 </div>
             </div>
@@ -71,15 +68,20 @@
                     </div>
                 @endif
 
-                <div id="task-container" class="grid grid-cols-3 gap-4 justify-center mt-8 ml-5 mr-5">
+                <div id="task-container " class="grid grid-cols-3 gap-4 flex items-center justify-center  mt-8 ml-5 mr-5">
                     @forelse ($tasks as $task)
                         @if(auth()->user()->role == 1 || ($task->user_id == auth()->user()->id && auth()->user()->role == 0))
-                            <div class="rounded-xl bg-white p-4">
+                            <div class="rounded-xl bg-white p-4  items-center justify-center  ">
                                 <img src="https://cdn-icons-png.flaticon.com/512/351/351501.png?w=740&t=st=1684714193~exp=1684714793~hmac=11791ab8c8f7af7f9a0aa076fa6013c8da75ff97d18a7b67c1dbf3153a492915" class="w-12">
                                 <div class="mt-3 text-gray-800 font-semibold text-lg">{{ $task->title }}</div>
                                 <div class="text-sm text-gray-800 font-light">{{ $task->description }}</div>
-                                <div class="my-4">
-                                    <span class="font-bold text-gray-800 text-base">{{ $task->due_date }}-</span>
+                                <p>{{ $task->user->name }}</p>
+                                <div class="my-4 ">
+
+
+
+                                    <p class="due-time font-bold text-gray-800 text-base">Koha fundit: {{ $task->due_date }}</p>  
+                                    <p class="due-time font-bold text-gray-800 text-base">Kan mbetur: {{ \Carbon\Carbon::parse($task->due_date . ' ' . $task->due_time)->diffForHumans() }}</p>
                                     <span class="font-light text-gray-800 text-sm">
                                         <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary text-green-600 bold">{{ __('Ndrysho') }}</a>
                                         <form method="POST" action="{{ route('tasks.destroy', $task->id) }}" style="display: inline-block;">

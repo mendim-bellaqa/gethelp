@@ -35,22 +35,26 @@ class TaskController extends Controller
             'title' => 'required',
             'description' => 'required',
             'due_date' => 'required',
+            'due_time' => 'required',
         ]);
-    
+
         $user = auth()->user();
-    
+
         if ($user->isSimpleUser()) {
-            $taskData = $request->except('_token');
+            $taskData = $request->except('_token', 'due_time');
             $taskData['user_id'] = $user->id;
-    
+            $taskData['due_date'] = $request->due_date . ' ' . $request->due_time;
+
             $task = new Task($taskData);
             $task->save();
-    
+
             return redirect()->route('dashboard')->with('success', 'Detyra u shtua me sukses.');
         }
-    
+
         return redirect()->route('login');
     }
+
+    
     
     public function edit(Task $task)
     {
