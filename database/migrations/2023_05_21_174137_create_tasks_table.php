@@ -47,7 +47,7 @@ class AddTaskSeeder extends Seeder
      */
     public function run()
     {
-        $user = Auth::user(); // Merr përdoruesin aktual të autentikuar
+        $user = User::find($this->user->id);// Merr përdoruesin aktual të autentikuar
 
         DB::table('tasks')->insert([
             'title' => 'dsd',

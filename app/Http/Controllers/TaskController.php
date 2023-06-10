@@ -13,14 +13,16 @@ class TaskController extends Controller
             $user = auth()->user();
             if ($user->isAdmin()) {
                 $tasks = Task::orderBy('due_date')->get();
-            } else {
-                $tasks = $user->tasks()->orderBy('due_date')->get();
+            } else if ($user->isSimpleUser()) {
+                $tasks = Task::where('user_id', $user->id)->orderBy('due_date')->get();
             }
+            
             return view('tasks.index', compact('tasks'));
         }
     
         return redirect()->route('login');
     }
+    
     
     public function create()
     {
@@ -37,7 +39,7 @@ class TaskController extends Controller
     
         $user = auth()->user();
     
-        if (!$user->isSimpleUser()) {
+        if ($user->isSimpleUser()) {
             $taskData = $request->except('_token');
             $taskData['user_id'] = $user->id;
     
@@ -50,8 +52,6 @@ class TaskController extends Controller
         return redirect()->route('login');
     }
     
-    
-
     public function edit(Task $task)
     {
         return view('tasks.edit', compact('task'));
