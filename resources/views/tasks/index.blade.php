@@ -39,7 +39,7 @@
 
                     @if(auth()->user()->role == 1)
                     <a href="/admin/dashboard"
-                        class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Admin panel</a>
+                        class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Admin Panel</a>
                     @endif
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -53,6 +53,8 @@
                 </div>
             </div>
         </nav>
+
+        
 
         <div class="relative">
             

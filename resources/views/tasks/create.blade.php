@@ -48,52 +48,45 @@
         </div>
     </nav>
     
-<div class="h-screen bg-yellow-600 flex justify-center items-center">
-    <div class="max-w-3xl mx-auto px-4 text-white sm:px-6 lg:px-8">
+    <div class="h-screen bg-yellow-600 flex justify-center items-center">
+    <div class="max-w-3xl mx-auto px-4 text-black">
         <h2 class="text-3xl font-bold text-white text-center mb-5">Shto një detyrë</h2>
         <form action="{{ route('tasks.store') }}" class="md:p-8" method="POST">
             @csrf
-            <div class="flex flex-col md:flex-row gap-8 md:p-8">
-                <div class="flex-1">
-                    <label for="title" class="block text-white font-semibold mb-2">Titulli i detyrës</label>
-                    <input type="text" name="title" id="title"
-                        class="w-full text-black h-80 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+            <div class="md:p-8">
+                <div class="flex-1 w-64 mb-4">
+                    <label for="title" class="block text-black font-semibold mb-2">Titulli i detyrës</label>
+                    <input type="text" name="title" id="title" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
-                <div class="flex-1">
-                    <label for="description" class="block text-white font-semibold mb-2">Përshkrimi i detyrës</label>
-                    <input type="text" name="description" id="description"
-                        class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                </div>
+            </div>
+            <div class="flex-1 mb-4">
+                <label for="description" class="block text-black font-semibold mb-2">Përshkrimi i detyrës</label>
+                <input type="text" name="description" id="description" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             </div>
             <div class="flex flex-col md:flex-row gap-4 mt-4">
                 <div class="flex-1">
-                    <label for="due_date" class="block text-white font-semibold mb-2">Data e duhur</label>
-                    <input type="date" name="due_date" id="due_date"
-                        class="w-full text-white rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label for="due_date" class="block text-black font-semibold mb-2">Data e duhur</label>
+                    <input type="date" name="due_date" id="due_date" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
-            </div>
-
-
-            
-            <div class="flex flex-col md:flex-row gap-4 mt-4">
-                <label for="due_time" class="block text-white font-semibold mb-2">{{ __('Ora e skadencës') }}</label>
-                <input id="due_time" type="time" class="w-full text-white rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('due_time') is-invalid @enderror" name="due_time" value="{{ old('due_time') }}" required>
-                
-                @error('due_time')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div class="flex-1">
+                    <label for="due_time" class="block text-black font-semibold mb-2">Ora e skadencës</label>
+                    <input id="due_time" type="time" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('due_time') is-invalid @enderror" name="due_time" value="{{ old('due_time') }}" required>
+                    @error('due_time')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
             </div>
             <div class="flex justify-center mt-6">
-                <button type="submit"
-                    class="py-2 px-4 bg-gray-800 hover:bg-gray-900 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <button type="submit" class="py-2 px-4 bg-gray-800 hover:bg-gray-900 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                     Shto detyrën
                 </button>
             </div>
         </form>
     </div>
 </div>
+
 
 </div>
 </body>
