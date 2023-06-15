@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/tailwindcss@1.2.0/dist/tailwind.min.css" rel="stylesheet">
     <title>@yield('title')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <style>
         .card {
             transition: transform 0.3s;
@@ -25,6 +27,125 @@
             opacity: 0;
             transition: max-height 0.3s, opacity 0.3s;
         }
+
+
+        .popup {
+            display: none;
+            position: relative;
+            
+            width: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 180px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #FFF;
+            border: 3px solid #F04A49;
+            z-index: 20;
+        }
+
+#popup:after {
+  position: fixed;
+  content: "";
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: -2;
+}
+
+#popup:before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #FFF;
+  z-index: -1;
+}
+
+.task {
+  margin-bottom: 10px;
+}
+
+.task {
+  margin-bottom: 10px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  padding: 5px 10px;
+  background-color: #f1f1f1;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.dropdown-content a:hover {
+  background-color: #f9f9f9;
+}
+
+.show {
+  display: block;
+}
+
+.popupk {
+  display: none;
+  position: fixed;
+  padding: 10px;
+  width: 280px;
+  left: 50%;
+  margin-left: -150px;
+  height: 180px;
+  top: 50%;
+  margin-top: -100px;
+  background: #FFF;
+  border: 3px solid #F04A49;
+  z-index: 20;
+}
+
+#popupk:after {
+  position: fixed;
+  content: "";
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: -2;
+}
+
+#popupk:before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #FFF;
+  z-index: -1;
+}
+
+        
     </style>
 </head>
 
@@ -78,93 +199,105 @@
 
         <div class="relative">
 
-            <div style="width: 100%; position: absolute;" class="bg-cover bg-center bg-yellow-600  items-center justify-around content-start min-h-screen">
-                <!-- tasks -->
-                <!-- Hero section -->
-                @if(auth()->check())
-                <div class="flex items-center justify-center flex-col bg-[#E5E5E5] ">
-                    <a href="{{ route('tasks.create') }}"
-                        class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8">
-                        Krijo Detyrë
-                    </a>
-                </div>
-                @endif
+          <div style="width: 100%; position: absolute;" class="bg-cover bg-center bg-yellow-600 items-center justify-around content-start min-h-screen">
+            <!-- tasks -->
+            <!-- Hero section -->
+            @if(auth()->check())
+            <div class="flex items-center justify-center flex-col bg-[#E5E5E5] ">
+              <a href="{{ route('tasks.create') }}" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8">
+                Krijo Detyrë
+              </a>
+            </div>
+            @endif
 
-                <div id="task-container" class="grid grid-cols-3 gap-4 flex items-center justify-center  mt-8 mb-16 ml-5 mr-5">
-                    @forelse ($tasks as $task)
-                    @if(auth()->user()->role == 1 || ($task->user_id == auth()->user()->id && auth()->user()->role == 0))
-                    <div class="card rounded-lg bg-orange-200 p-4 w-full mx-auto mb-4">
-                        <img src="https://cdn-icons-png.flaticon.com/512/351/351501.png?w=740&t=st=1684714193~exp=1684714793~hmac=11791ab8c8f7af7f9a0aa076fa6013c8da75ff97d18a7b67c1dbf3153a492915" class="w-12">
-                        <div class="mt-3 text-gray-800 font-semibold text-lg">{{ $task->title }}</div>
-                        <div class="text-sm text-gray-800 font-light">
-                            @if (strlen($task->description) > 50)
-                            <div>
-                                <p>{{ substr($task->description, 0, 50) }}</p>
-                                <button id="show-description-btn-{{ $task->id }}"
-                                    class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mt-2 focus:outline-none">
-                                    Shfaq të plotë
-                                </button>
-                                <div id="description-{{ $task->id }}" class="description hidden">
-                                    {{ $task->description }}
-                                </div>
-                            </div>
-                            @else
-                            {{ $task->description }}
-                            @endif
-                        </div>
-                        <p>{{ $task->user->name }}</p>
-                        <div class="my-4">
-                            <p class="due-time font-bold text-gray-800 text-base">Koha fundit: {{ $task->due_date }}</p>
-                            <p class="due-time font-bold text-gray-800 text-base">Kan mbetur: {{ \Carbon\Carbon::parse($task->due_date . ' ' . $task->due_time)->diffForHumans() }}</p>
-                            <span class="font-light text-gray-800 text-sm">
-                                <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary text-green-600 bold">{{ __('Ndrysho') }}</a>
-                                <form method="POST" action="{{ route('tasks.destroy', $task->id) }}" style="display: inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger text-red-600 ">{{ __('Fshij') }}</button>
-                                </form>
-                            </span>
-                        </div>
+            <div id="task-container" class="grid grid-cols-3 gap-4 flex items-center justify-center mt-8 mb-16 ml-5 mr-5">
+              @forelse ($tasks as $task)
+              @if(auth()->user()->role == 1 || ($task->user_id == auth()->user()->id && auth()->user()->role == 0))
+              <div class="card rounded-lg bg-orange-200 p-4 w-full mx-auto mb-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/351/351501.png?w=740&t=st=1684714193~exp=1684714793~hmac=11791ab8c8f7af7f9a0aa076fa6013c8da75ff97d18a7b67c1dbf3153a492915" class="w-12">
+                <div class="mt-3 text-gray-800 font-semibold text-lg">{{ $task->title }}</div>
+                <div class="text-sm text-gray-800 font-light">
+                  @if (strlen($task->description) > 50)
+                  <div>
+                    <p>{{ substr($task->description, 0, 50) }}</p>
+                    <button id="show-description-btn-{{ $task->id }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mt-2 focus:outline-none">
+                      Shfaq të plotë
+                    </button>
+                    <div id="description-{{ $task->id }}" class="description hidden">
+                      {{ $task->description }}
                     </div>
-                    @endif
-                    @empty
-                    <div class="bg-[#F9ECFF] rounded-xl">
-                        <p class="text-gray-600">Nuk ka detyra në dispozicion.</p>
-                    </div>
-                    @endforelse
+                  </div>
+                  @else
+                  {{ $task->description }}
+                  @endif
                 </div>
+                <p>{{ $task->user->name }}</p>
+                <div class="my-4">
+                  <p class="due-time font-bold text-gray-800 text-base">Koha fundit: {{ $task->due_date }}</p>
+                  <p class="due-time font-bold text-gray-800 text-base">Kan mbetur: {{ \Carbon\Carbon::parse($task->due_date . ' ' . $task->due_time)->diffForHumans() }}</p>
+                  <span class="font-light text-gray-800 text-sm">
+                    <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary text-green-600 bold">{{ __('Ndrysho') }}</a>
+                    <form method="POST" action="{{ route('tasks.destroy', $task->id) }}" style="display: inline-block;">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn-danger text-red-600 ">{{ __('Fshij') }}</button>
+                    </form>
+                  </span>
+                  <!-- Butoni "Shiko" -->
+                  <select id="status-dropdown-{{ $task->id }}">
+                    <!-- Vendosni opsionet e dropdown-it këtu -->
+                    <option value="completed">Completed</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="pending">Pending</option>
+                  </select>
+                  <button onclick="onStatusChange({{ $task->id }})">Save</button>
+                </div>
+              </div>
+              @endif
+              @empty
+              <div class="bg-[#F9ECFF] rounded-xl">
+                <p class="text-gray-600">Nuk ka detyra në dispozicion.</p>
+              </div>
+              @endforelse
+            </div>
+          </div>
             </div>
         </div>
 
     </div>
 
+
     <script>
-        // JavaScript code to show/hide description on button click
-        @foreach ($tasks as $task)
-        const showBtn{{ $task->id }} = document.getElementById('show-description-btn-{{ $task->id }}');
-        const description{{ $task->id }} = document.getElementById('description-{{ $task->id }}');
+  var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        showBtn{{ $task->id }}.addEventListener('click', () => {
-            if (description{{ $task->id }}.classList.contains('hidden')) {
-                description{{ $task->id }}.classList.remove('hidden');
-                showBtn{{ $task->id }}.textContent = 'Fshih';
-            } else {
-                description{{ $task->id }}.classList.add('hidden');
-                showBtn{{ $task->id }}.textContent = 'Shfaq të plotë';
-            }
-        });
+var xhr = new XMLHttpRequest();
+xhr.open("POST", "/tasks/" + taskId + "/update-status", true);
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken); // Shtoni këtë linjë për të shtuar tokenin CSRF në kërkesë
+xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        console.log(xhr.responseText); // Response message from the controller
+      } else {
+        console.error("Error while saving the status to the database.");
+      }
+    }
+  };
 
-        // JavaScript code for slow motion zoom effect
-        const card{{ $task->id }} = document.querySelector('.card');
-        card{{ $task->id }}.addEventListener('mouseover', () => {
-            card{{ $task->id }}.classList.add('zoom');
-        });
+  var data = JSON.stringify({ newStatus: newStatus });
+  xhr.send(data);
+}
 
-        card{{ $task->id }}.addEventListener('mouseout', () => {
-            card{{ $task->id }}.classList.remove('zoom');
-        });
-        @endforeach
-    </script>
+// Complete the onStatusChange function with code that displays the dropdown and updates the task status in the database
+function onStatusChange(taskId) {
+  var dropdown = document.getElementById("status-dropdown-" + taskId);
+  var selectedStatus = dropdown.value;
+
+  // Update the status in the database
+  saveStatusToDatabase(taskId, selectedStatus);
+}
+
+      </script>
 </body>
 
 </html>

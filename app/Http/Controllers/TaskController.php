@@ -16,14 +16,14 @@ class TaskController extends Controller
             } else if ($user->isSimpleUser()) {
                 $tasks = Task::where('user_id', $user->id)->orderBy('due_date')->get();
             }
-            
+
             return view('tasks.index', compact('tasks'));
         }
-    
+
         return redirect()->route('login');
     }
-    
-    
+
+
     public function create()
     {
         return view('tasks.create');
@@ -40,7 +40,7 @@ class TaskController extends Controller
 
         $user = auth()->user();
 
-        if ($user->isSimpleUser()) {
+        if ($user->isSimpleUser() || $user->isAdmin()) {
             $taskData = $request->except('_token', 'due_time');
             $taskData['user_id'] = $user->id;
             $taskData['due_date'] = $request->due_date . ' ' . $request->due_time;
@@ -48,24 +48,14 @@ class TaskController extends Controller
             $task = new Task($taskData);
             $task->save();
 
-            return redirect()->route('dashboard')->with('success', 'Detyra u shtua me sukses.');
-        }
-        else if ($user->isAdmin()) {
-            $taskData = $request->except('_token', 'due_time');
-            $taskData['user_id'] = $user->id;
-            $taskData['due_date'] = $request->due_date . ' ' . $request->due_time;
-
-            $task = new Task($taskData);
-            $task->save();
-
-            return redirect()->route('dashboard')->with('success', 'Detyra u shtua me sukses.');
+            return redirect()->route('tasks.index')->with('success', 'Detyra u shtua me sukses.');
         }
 
         return redirect()->route('login');
     }
 
-    
-    
+
+
     public function edit(Task $task)
     {
         return view('tasks.edit', compact('task'));
@@ -81,13 +71,30 @@ class TaskController extends Controller
 
         $task->update($request->all());
 
-        return redirect()->route('dashboard')->with('success', 'Detyra u përditësua me sukses.');
+        return redirect()->route('tasks.index')->with('success', 'Detyra u përditësua me sukses.');
     }
 
     public function destroy(Task $task)
     {
         $task->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Detyra u fshi me sukses.');
+        return redirect()->route('tasks.index')->with('success', 'Detyra u fshi me sukses.');
     }
+
+    public function updateStatus(Request $request, $taskId)
+    {
+        $task = Task::find($taskId);
+    
+        $validatedData = $request->validate([
+            'newStatus' => 'required|in:completed,in_progress,pending',
+        ]);
+    
+        $newStatus = $validatedData['newStatus'];
+    
+        $task->status = $newStatus;
+        $task->save();
+    
+        return response()->json(['message' => 'Statusi i detyrës u azhurnua me sukses.']);
+    }
+    
 }

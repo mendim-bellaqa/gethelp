@@ -23,7 +23,11 @@ class CreateTasksTable extends Migration
             $table->timestamp('due_date');
             $table->time('due_time')->nullable(); // New column for due time
             $table->foreignId('user_id')->constrained('users');
+            $table->string('status')->default('progres');
             $table->timestamps(); // created_at and updated_at columns
+        });
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->enum('status', ['progress', 'completed', 'refused'])->default('progress')->after('idea');
         });
     }
 
@@ -57,6 +61,7 @@ class AddTaskSeeder extends Seeder
             'user_id' => $user->id, // Set the user_id to the currently authenticated user's ID
             'created_at' => now(),
             'updated_at' => now(),
+            'status' => 'progres',
         ]);
     }
 }

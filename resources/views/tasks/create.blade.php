@@ -50,7 +50,7 @@
     
     <div class="h-screen bg-yellow-600 flex justify-center items-center">
     <div class="max-w-3xl mx-auto px-4 text-black">
-        <h2 class="text-3xl font-bold text-white text-center mb-5">Shto një detyrë</h2>
+        <h2 class="text-3xl font-bold text-white text-center mb-5">Shto detyrën dhe cakto kohen</h2>
         <form action="{{ route('tasks.store') }}" class="md:p-8" method="POST">
             @csrf
             <div class="md:p-8">
