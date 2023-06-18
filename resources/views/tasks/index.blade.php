@@ -172,32 +172,85 @@
                 </div>
                 <div class="flex flex-col md:flex-row hidden md:block -mx-2">
                     @guest
-                    <a href="/login"
-                        class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Lidhu</a>
-                    <a href="/register"
-                        class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Regjistrohu</a>
+                        <a href="/login" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Lidhu</a>
+                        <a href="/register" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Regjistrohu</a>
                     @else
-                    <a href="#"
-                        class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">{{ auth()->user()->name }}</a>
+                        @if(auth()->check())
+                            <a href="#" id="user-link" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">{{ auth()->user()->name }}</a>
+                        @endif
+                        @if(auth()->user()->role == 1)
+                            <a href="/admin/dashboard" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Admin Panel</a>
+                        @endif
 
-                    @if(auth()->user()->role == 1)
-                    <a href="/admin/dashboard"
-                        class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Admin Panel</a>
-                    @endif
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                            <button type="submit">Shkyçu</button>
+                        </form>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                        <button type="submit">Shkycu</button>
-                    </form>
-
-                    <a href="#"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Shkycu</a>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Shkyçu</a>
                     @endif
                 </div>
             </div>
         </nav>
 
         <div class="relative">
+
+        <div id="user-widget" class=" hidden inset-x-0 bottom-0 flex flex-col items-center justify-center bg-yellow-400 text-black">
+            <div class="top-5">
+                <!-- component -->
+                    <div class="p-5 widget-container  w-48 h-48" id="user-widget ">
+                        <div class="flex h-64 justify-center">
+                            <div class="relative ">
+                            
+                                <div class="relatve   rounded-b border-t-0 z-10">
+                                    <div class="shadow-xl w-64">
+                                        <div class="p-2 flex bg-white hover:bg-gray-100 cursor-pointer border-b border-gray-100" style="">
+                                            <div class="p-2 w-12"><img src="https://dummyimage.com/50x50/bababa/0011ff&amp;text=50x50" alt="img product"></div>
+                                            <div class="flex-auto text-sm w-32">
+                                                <div class="font-bold">Përdoruesit: </div>
+                                                <div class="truncate text-black-400">
+                                                    @auth
+                                                        {{ auth()->user()->name }}
+                                                    @endauth
+                                                </div>
+                                                <div class="truncate text-black-400">
+                                                    @auth
+                                                         {{ auth()->user()->email }}
+                                                    @endauth
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-col w-18 font-medium items-end">
+                                                <div class="w-4 h-4 mb-6 hover:bg-red-200 rounded-full cursor-pointer text-red-700">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 ">
+                                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="p-4 justify-center flex">
+                                            <a href="/profile/edit" >
+                                                <button class="text-base  undefined  hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
+                                                    hover:bg-teal-700 hover:text-teal-100 
+                                                    bg-teal-100 
+                                                    text-teal-700 
+                                                    border duration-200 ease-in-out 
+                                                    border-teal-600 transition">Edito profilin
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
             <div style="width: 100%; position: absolute;" class="bg-cover bg-center bg-yellow-600 items-center justify-around content-start min-h-screen">
               <!-- tasks -->
               <!-- Hero section -->
@@ -209,98 +262,139 @@
               </div>
               @endif
 
-              <div id="task-container" class="grid grid-cols-3 gap-4 flex items-center justify-center mt-8 mb-16 ml-5 mr-5">
-                @forelse ($tasks as $task)
-                @if(auth()->user()->role == 1 || ($task->user_id == auth()->user()->id && auth()->user()->role == 0))
-                <div class="card rounded-lg bg-orange-200 p-4 w-full mx-auto mb-4">
-                  <img src="https://cdn-icons-png.flaticon.com/512/351/351501.png?w=740&t=st=1684714193~exp=1684714793~hmac=11791ab8c8f7af7f9a0aa076fa6013c8da75ff97d18a7b67c1dbf3153a492915" class="w-12">
-                  <div class="mt-3 text-gray-800 font-semibold text-lg">{{ $task->title }}</div>
-                  <div class="text-sm text-gray-800 font-light">
-                    @if (strlen($task->description) > 50)
+
+              @if(session()->has('message'))
+              <div class="max-w-lg hidden mx-auto mt-5" id="success-message">
+                <div class="flex bg-green-100 rounded-lg p-4 mb-4 text-sm text-green-700" role="alert">
+                    <svg class="w-5 h-5 inline mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                    </svg>
                     <div>
-                      <p>{{ substr($task->description, 0, 50) }}</p>
-                      <div class="relative">
-                        <div class="px-2 py-1 mt-2">
-                          <button id="show-description-btn-{{ $task->id }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mt-2 focus:outline-none">
-                            Shfaq të plotë
-                          </button>
-                        </div>
-                        <button class="bg-gray-800 text-white hover:bg-green-700 font-bold py-2 px-3 rounded mt-2 absolute right-0 top-0">{{ $task->status }}</button>
-                      </div>
-                      <div id="description-{{ $task->id }}" class="description hidden">
-                        {{ $task->description }}
-                      </div>
+                        <span class="font-medium">Statusi u ndryshua</span>  {{ session()->get('message') }}
                     </div>
-                    @else
-                    {{ $task->description }}
-                    @endif
-                  </div>
-                  <p>{{ $task->user->name }}</p>
-                  <div class="my-4">
-                    <p class="due-time font-bold text-gray-800 text-base">Koha fundit: {{ $task->due_date }}</p>
-                    <p class="due-time font-bold text-gray-800 text-base">Kan mbetur: {{ \Carbon\Carbon::parse($task->due_date . ' ' . $task->due_time)->diffForHumans() }}</p>
-                    <span class="font-light text-gray-800 text-sm">
-                      <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary text-green-600 bold">{{ __('Ndrysho') }}</a>
-                      <form method="POST" action="{{ route('tasks.destroy', $task->id) }}" style="display: inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger text-red-600">{{ __('Fshij') }}</button>
-                      </form>
-                    </span>
-                  </div>
-                  <div class="relative">
-                    <select id="status-dropdown-{{ $task->id }}" class="border border-gray-400 rounded-md px-2 py-1 mt-2">
-                      <!-- Vendosni opsionet e dropdown-it këtu -->
-                      <option value="completed">Completed</option>
-                      <option value="in_progress">In Progress</option>
-                      <option value="pending">Pending</option>
-                    </select>
-                    <button onclick="onStatusChange({{ $task->id }})" class="bg-black text-white hover:bg-green-700 font-bold py-2 px-3 rounded mt-2 absolute right-0 top-0">Save</button>
-                  </div>
                 </div>
-                @endif
-                @empty
-                <div class="bg-[#F9ECFF] rounded-xl">
-                  <p class="text-gray-600">Nuk ka detyra në dispozicion.</p>
+            </div>
+
+            @endif
+
+                <div id="task-container" class="grid grid-cols-3 gap-4 flex items-center justify-center mt-8 mb-16 ml-5 mr-5">
+                  @forelse ($tasks as $task)
+                  @if(auth()->user()->role == 1 || ($task->user_id == auth()->user()->id && auth()->user()->role == 0))
+                  <div class="card rounded-lg bg-orange-200 p-4 w-full mx-auto mb-4">
+                    <img src="https://cdn-icons-png.flaticon.com/512/351/351501.png?w=740&t=st=1684714193~exp=1684714793~hmac=11791ab8c8f7af7f9a0aa076fa6013c8da75ff97d18a7b67c1dbf3153a492915" class="w-12">
+                    <div class="mt-3 text-gray-800 font-semibold text-lg">{{ $task->title }}</div>
+                    <div class="text-sm text-gray-800 font-light">
+                      @if (strlen($task->description) > 50)
+                      <div>
+                        <p>{{ substr($task->description, 0, 50) }}</p>
+                        <div class="relative">
+                          <div class="px-2 py-1 mt-2">
+                            <button id="show-description-btn-{{ $task->id }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mt-2 focus:outline-none">
+                              Shfaq të plotë
+                            </button>
+                          </div>
+                          <button id="status-button-{{ $task->id }}" class="bg-gray-800 text-white hover:bg-green-700 font-bold py-2 px-3 rounded mt-2 absolute right-0 top-0">{{ $task->status }}</button>
+                        </div>
+                        <div id="description-{{ $task->id }}" class="description hidden">
+                          {{ $task->description }}
+                        </div>
+                      </div>
+                      @else
+                      {{ $task->description }}
+                      @endif
+                    </div>
+                    <p>{{ $task->user->name }}</p>
+                    <div class="my-4">
+                      <p class="due-time font-bold text-gray-800 text-base">Koha fundit: {{ $task->due_date }}</p>
+                      <p class="due-time font-bold text-gray-800 text-base">Kan mbetur: {{ \Carbon\Carbon::parse($task->due_date . ' ' . $task->due_time)->diffForHumans() }}</p>
+                      <span class="font-light text-gray-800 text-sm">
+                        <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary text-green-600 bold">{{ __('Ndrysho') }}</a>
+                        <form method="POST" action="{{ route('tasks.destroy', $task->id) }}" style="display: inline-block;">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn btn-danger text-red-600">{{ __('Fshij') }}</button>
+                        </form>
+                      </span>
+                    </div>
+                    <div class="relative">
+                      <select id="status-dropdown-{{ $task->id }}" class="border  border-gray-400 rounded-md px-2 py-1 mt-2">
+                        <!-- Vendosni opsionet e dropdown-it këtu -->
+                        <option value="completed">Kryer</option>
+                        <option value="in_progress">Proces</option>
+                        <option value="pending">Refuzuar</option>
+                      </select>
+                      <button onclick="onStatusChange({{ $task->id }})" class="bg-black text-white hover:bg-green-700 font-bold py-2 px-3 rounded mt-2 absolute right-0 top-0">Ruaj statusin</button>
+                    </div>
+                    
+                  </div>
+                  
+
+                  @endif
+                  @empty
+                  <div class="bg-[#F9ECFF] rounded-xl">
+                    <p class="text-gray-600">Nuk ka detyra në dispozicion.</p>
+                  </div>
+                  @endforelse
                 </div>
-                @endforelse
               </div>
             </div>
           </div>
 
+          <script>
+              document.getElementById('user-link').addEventListener('click', function(event) {
+              event.preventDefault();
+              document.getElementById('user-widget').classList.toggle('hidden');
+          });
 
-
-    <script>
-        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "/tasks/" + taskId + "/update-status", true);
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken); // Shtoni këtë linjë për të shtuar tokenin CSRF në kërkesë
-      xhr.onreadystatechange = function() {
-          if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-              console.log(xhr.responseText); // Response message from the controller
-            } else {
-              console.error("Error while saving the status to the database.");
-            }
-          }
-        };
-
-        var data = JSON.stringify({ newStatus: newStatus });
-        xhr.send(data);
-      }
-
-      // Complete the onStatusChange function with code that displays the dropdown and updates the task status in the database
+          </script>
+          
+  <script>
       function onStatusChange(taskId) {
-        var dropdown = document.getElementById("status-dropdown-" + taskId);
-        var selectedStatus = dropdown.value;
+          var dropdown = document.getElementById("status-dropdown-" + taskId);
+          var selectedStatus = dropdown.value;
 
-        // Update the status in the database
-        saveStatusToDatabase(taskId, selectedStatus);
+          // Përditëso statusin në databazë dhe fresko butonin në front-end
+          saveStatusToDatabase(taskId, selectedStatus);
       }
 
-    </script>
+      function saveStatusToDatabase(taskId, newStatus) {
+          var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/tasks/" + taskId + "/update-status", true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === 4) {
+                  if (xhr.status === 200) {
+                      var response = JSON.parse(xhr.responseText);
+                      var statusButton = document.getElementById("status-button-" + taskId);
+                      statusButton.textContent = response.newStatus; // Përditëso tekstin e butonit me statusin e ri
+                      showSuccessMessage(response.message); // Shfaq mesazhin e suksesit
+                      setTimeout(hideSuccessMessage, 5000); // Fshini mesazhin e suksesit pas 5 sekondash
+                  } else {
+                      console.error("Gabim gjatë ruajtjes së statusit në databazë.");
+                  }
+              }
+          };
+
+          var data = JSON.stringify({ newStatus: newStatus });
+          xhr.send(data);
+      }
+
+      function showSuccessMessage(message) {
+          var successMessage = document.getElementById("success-message");
+          successMessage.classList.remove("hidden");
+          var messageText = document.createTextNode(message);
+          successMessage.innerHTML = ""; // Fshini mesazhin e mëparshëm përpara se ta përditësoni
+          successMessage.appendChild(messageText);
+      }
+
+      function hideSuccessMessage() {
+          var successMessage = document.getElementById("success-message");
+          successMessage.classList.add("hidden");
+      }
+  </script>
+
 </body>
 
 </html>

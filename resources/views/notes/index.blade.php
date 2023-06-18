@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,30 +107,32 @@
                 </div>
             </div>
         </div>
-       
-        <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-yellow-400 text-white">
-            <h1 class="text-4xl text-black bold font-extralight">Aktivitetet</h1>
-            <a href="/aktivitetet">      
-            <p class="text-black">Vazhdo</p>
-            </a>
+
+        <div class="sticky top-0 h-screen bg-yellow-400 text-white">
+            <div class="flex flex-col h-screen items-center justify-center">
+                <h1 class="text-2xl font-semibold mb-5">Lista e Notes</h1>
+                
+                <div class="max-w-md mx-auto mt-5">
+                    <a href="{{ route('notes.create') }}" class="bg-indigo-500 flex flex-row items-center justify-center text-white px-4 py-2 rounded-md hover:bg-indigo-600">Krijo Note</a>
+                    
+                    @foreach($notes as $note)
+                    <div class="bg-gray-100 p-4 mb-4 rounded-lg">
+                        <h2 class="text-xl font-medium">{{ $note->title }}</h2>
+                        <p class="text-gray-700">{{ $note->description }}</p>
+                        @if($note->photo)
+                        <img src="{{ asset('storage/' . $note->photo) }}" alt="Fotoja" class="w-32 h-32 mt-3 rounded">
+                        @endif
+                    </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
 
-        <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-green-400">
-            <h1 class="text-4xl">Ditari</h1>
-            <a href="/notes">      
-            <p>Vazhdo</p>
-            </a>
-        </div>
-        
-    </div>
-</div>
-
-<script>
-    document.getElementById('user-link').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('user-widget').classList.toggle('hidden');
-});
-
-</script>
+        <script>
+            document.getElementById('user-link').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('user-widget').classList.toggle('hidden');
+        });
+        </script>
 </body>
 </html>

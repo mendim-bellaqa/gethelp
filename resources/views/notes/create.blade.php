@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,29 +108,36 @@
             </div>
         </div>
        
-        <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-yellow-400 text-white">
-            <h1 class="text-4xl text-black bold font-extralight">Aktivitetet</h1>
-            <a href="/aktivitetet">      
-            <p class="text-black">Vazhdo</p>
-            </a>
+        <div class="sticky top-0 h-screen flex flex-row items-center justify-center justify-content-between bg-yellow-400 text-white">
+            
+            <div class="max-w-md mx-auto mt-5">
+                <h1 class="text-2xl text-black font-semibold mb-5">Krijo nje Note</h1>
+                    <form action="{{ route('notes.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="title" class="block text-black font-medium">Titulli:</label>
+                            <input type="text" name="title" id="title" class="w-full text-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="mb-4">
+                            <label for="description" class="block text-black font-medium">Përshkrimi:</label>
+                            <textarea name="description" id="description" rows="3" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="photo" class="block text-black text-black font-medium">Foto:</label>
+                            <input type="file" name="photo" id="photo" class="w-full text-black">
+                        </div>
+                        <div class="mt-6">
+                            <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Krijo Note</button>
+                        </div>
+                    </form>
+            </div>
         </div>
+        <script>
+            document.getElementById('user-link').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('user-widget').classList.toggle('hidden');
+        });
 
-        <div class="sticky top-0 h-screen flex flex-col items-center justify-center bg-green-400">
-            <h1 class="text-4xl">Ditari</h1>
-            <a href="/notes">      
-            <p>Vazhdo</p>
-            </a>
-        </div>
-        
-    </div>
-</div>
-
-<script>
-    document.getElementById('user-link').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('user-widget').classList.toggle('hidden');
-});
-
-</script>
+        </script>
 </body>
 </html>

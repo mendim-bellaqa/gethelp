@@ -7,7 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\EditProfileController;
-
+use App\Http\Controllers\NoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +23,7 @@ use App\Http\Controllers\EditProfileController;
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/notes', function () {
-    return view('notes.home');
-});
+
 
 
 Route::get('/profile/edit', [EditProfileController::class, 'edit'])->name('profile.edit');
@@ -63,3 +61,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
+Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
+Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
+Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
+Route::get('/notes/{id}/edit', [NoteController::class, 'edit'])->name('notes.edit');
+Route::put('/notes/{id}', [NoteController::class, 'update'])->name('notes.update');

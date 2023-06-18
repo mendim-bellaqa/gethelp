@@ -100,6 +100,7 @@ class TaskController extends Controller
         $task->save();
     
         return response()->json(['message' => 'Statusi i detyrës u azhurnua me sukses.']);
+        
     }
     
 }
