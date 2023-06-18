@@ -48,59 +48,62 @@
         </div>
     </nav>
     
-    <div class="h-screen bg-yellow-600 flex align-content-center justify-center items-center">
-    <div>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="w-48 rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">{{ __('Ndrysho Detyrën') }}</div>
+    <div class="h-screen bg-yellow-600 flex items-center justify-center">
+    <div class="w-full max-w-md">
+        <div class="bg-white border border-gray-300 rounded-md p-6">
+            <h2 class="text-2xl text-gray-700 mb-6">{{ __('Ndrysho Detyrën') }}</h2>
 
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('tasks.update', $task->id) }}">
-                            @csrf
-                            @method('PUT')
+            <form method="POST" action="{{ route('tasks.update', $task->id) }}">
+                @csrf
+                @method('PUT')
 
-                            <div class="form-group">
-                                <label for="title">{{ __('Titulli') }}</label>
-                                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title', $task->title) }}" required autofocus>
-
-                                @error('title')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label for="description">{{ __('Përshkrimi') }}</label>
-                                <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" required>{{ old('description', $task->description) }}</textarea>
-
-                                @error('description')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label for="due_date">{{ __('Data e skadencës') }}</label>
-                                <input id="due_date" type="date" class="form-control @error('due_date') is-invalid @enderror" name="due_date" value="{{ old('due_date', $task->due_date) }}" required>
-
-                                @error('due_date')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Ruaj ndryshimet') }}
-                            </button>
-                        </form>
-                    </div>
+                <div class="mb-6">
+                    <label for="title" class="block text-gray-700 font-medium mb-1">{{ __('Titulli') }}</label>
+                    <input id="title" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-purple-600" name="title" value="{{ old('title', $task->title) }}" required autofocus>
+                    @error('title')
+                        <span class="text-red-600 text-sm mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
-            </div>
+
+                <div class="mb-6">
+                    <label for="description" class="block text-gray-700 font-medium mb-1">{{ __('Përshkrimi') }}</label>
+                    <textarea id="description" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-purple-600" name="description" required>{{ old('description', $task->description) }}</textarea>
+                    @error('description')
+                        <span class="text-red-600 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                @php
+                    $dueDate = \Carbon\Carbon::parse($task->due_date)->format('Y-m-d');
+                    $dueTime = \Carbon\Carbon::parse($task->due_time)->format('H:i');
+                @endphp
+
+                <div class="mb-6">
+                    <label for="due_date" class="block text-gray-700 font-medium mb-1">{{ __('Data e skadencës') }}</label>
+                    <input id="due_date" type="date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-purple-600" name="due_date" value="{{ old('due_date', $dueDate) }}" required>
+                    @error('due_date')
+                        <span class="text-red-600 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-6">
+                    <label for="due_time" class="block text-gray-700 font-medium mb-1">{{ __('Ora e skadencës') }}</label>
+                    <input id="due_time" type="time" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-purple-600" name="due_time" value="{{ old('due_time', $dueTime) }}" required>
+                    @error('due_time')
+                        <span class="text-red-600 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="flex justify-center">
+                    <button type="submit" class="bg-black text-white px-4 py-2 rounded-md">{{ __('Ruaj ndryshimet') }}</button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
+
+
+    
     </div>
     </div>
 </div>

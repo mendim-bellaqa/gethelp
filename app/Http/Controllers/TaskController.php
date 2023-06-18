@@ -67,12 +67,17 @@ class TaskController extends Controller
             'title' => 'required',
             'description' => 'required',
             'due_date' => 'required',
+            'due_time' => 'required',
         ]);
-
-        $task->update($request->all());
-
+    
+        $task->fill($request->except('_token', 'due_time'));
+    
+        $task->due_date = $request->due_date . ' ' . $request->due_time;
+        $task->save();
+    
         return redirect()->route('tasks.index')->with('success', 'Detyra u përditësua me sukses.');
     }
+    
 
     public function destroy(Task $task)
     {

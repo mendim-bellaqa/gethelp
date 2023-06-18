@@ -243,15 +243,14 @@
                       <button type="submit" class="btn btn-danger text-red-600 ">{{ __('Fshij') }}</button>
                     </form>
                   </span>
-                  <!-- Butoni "Shiko" -->
-                  <select id="status-dropdown-{{ $task->id }}">
+                </div>
+                <select id="status-dropdown-{{ $task->id }}">
                     <!-- Vendosni opsionet e dropdown-it këtu -->
                     <option value="completed">Completed</option>
                     <option value="in_progress">In Progress</option>
                     <option value="pending">Pending</option>
                   </select>
                   <button onclick="onStatusChange({{ $task->id }})">Save</button>
-                </div>
               </div>
               @endif
               @empty

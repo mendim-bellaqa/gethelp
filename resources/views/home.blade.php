@@ -25,24 +25,26 @@
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row hidden md:block -mx-2">
-                @guest
-                <a href="/login" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Lidhu</a>
-                <a href="/register" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Regjistrohu</a>
-                @else
-                    <a href="#" id="user-link" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">{{ auth()->user()->name }}</a>
+                    @guest
+                        <a href="/login" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Lidhu</a>
+                        <a href="/register" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Regjistrohu</a>
+                    @else
+                        @if(auth()->check())
+                            <a href="#" id="user-link" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">{{ auth()->user()->name }}</a>
+                        @endif
+                        @if(auth()->user()->role == 1)
+                            <a href="/admin/dashboard" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Admin Panel</a>
+                        @endif
 
-                    @if(auth()->user()->role == 1)
-                        <a href="/admin/dashboard" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Admin Panel</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                            <button type="submit">Shkyçu</button>
+                        </form>
+
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Shkyçu</a>
                     @endif
+                </div>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    
-                        @csrf
-                        <button type="submit">Shkycu</button>
-                    </form>
-
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Shkycu</a>
-                @endif
             </div>
         </div>
     </nav>
@@ -68,8 +70,16 @@
                                             <div class="p-2 w-12"><img src="https://dummyimage.com/50x50/bababa/0011ff&amp;text=50x50" alt="img product"></div>
                                             <div class="flex-auto text-sm w-32">
                                                 <div class="font-bold">Përdoruesit: </div>
-                                                <div class="truncate">{{ auth()->user()->name }}</div>
-                                                <div class="text-black-400">{{ auth()->user()->email }}</div>
+                                                <div class="truncate text-black-400">
+                                                    @auth
+                                                        {{ auth()->user()->name }}
+                                                    @endauth
+                                                </div>
+                                                <div class="truncate text-black-400">
+                                                    @auth
+                                                         {{ auth()->user()->email }}
+                                                    @endauth
+                                                </div>
                                             </div>
                                             <div class="flex flex-col w-18 font-medium items-end">
                                                 <div class="w-4 h-4 mb-6 hover:bg-red-200 rounded-full cursor-pointer text-red-700">
