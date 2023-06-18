@@ -6,6 +6,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\EditProfileController;
 
 
 /*
@@ -25,6 +26,11 @@ Route::get('/', function () {
 Route::get('/notes', function () {
     return view('notes.home');
 });
+
+
+Route::get('/profile/edit', [EditProfileController::class, 'edit'])->name('profile.edit');
+
+
 Route::get('/aktivitetet', [TaskController::class, 'index'])->name('tasks.index');
 
 Route::get('/create-task', [TaskController::class, 'create'])->name('tasks.create');
