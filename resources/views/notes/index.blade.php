@@ -108,25 +108,20 @@
             </div>
         </div>
 
-        <div class="sticky top-0 h-screen bg-yellow-400 text-white">
-            <div class="flex flex-col h-screen items-center justify-center">
-                <h1 class="text-2xl font-semibold mb-5">Lista e Notes</h1>
-                
-                <div class="max-w-md mx-auto mt-5">
-                    <a href="{{ route('notes.create') }}" class="bg-indigo-500 flex flex-row items-center justify-center text-white px-4 py-2 rounded-md hover:bg-indigo-600">Krijo Note</a>
-                    
-                    @foreach($notes as $note)
-                    <div class="bg-gray-100 p-4 mb-4 rounded-lg">
-                        <h2 class="text-xl font-medium">{{ $note->title }}</h2>
-                        <p class="text-gray-700">{{ $note->description }}</p>
-                        @if($note->photo)
-                        <img src="{{ asset('storage/' . $note->photo) }}" alt="Fotoja" class="w-32 h-32 mt-3 rounded">
-                        @endif
-                    </div>
-                    @endforeach
-                </div>
+        <div class="sticky top-5 h-screen bg-yellow-400 text-white">
+        <div class="grid grid-cols-3 gap-4 m-auto p-8">
+            @foreach($notes as $note)
+            <div class="bg-gray-100 p-4 mb-4 rounded-lg shadow-lg">
+            <img src="{{ asset('storage/' . $note->photo) }}" alt="Fotoja" class="w-32 h-32 mt-3 rounded">
+            <div class="text-center">
+                <h2 class="text-xl text-black font-medium">{{ $note->title }}</h2>
+                <p class="text-black">{{ $note->description }}</p>
             </div>
+            </div>
+            @endforeach
         </div>
+        </div>
+
 
         <script>
             document.getElementById('user-link').addEventListener('click', function(event) {
