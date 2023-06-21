@@ -124,7 +124,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="description" class="block text-black font-medium">Përshkrimi:</label>
-                            <textarea name="description" id="description" rows="3" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                            <textarea name="description" id="description" rows="3" class="w-full border-gray-300 text-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                         </div>
                         <div class="mb-4">
                             <label for="photo" class="block text-black text-black font-medium">Foto:</label>
