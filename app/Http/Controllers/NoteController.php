@@ -30,7 +30,6 @@ class NoteController extends Controller
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('photo')->nullable();
             $table->unsignedBigInteger('user_id'); // Ndrysho emrin e kolonës në 'user_id'
             $table->timestamps();
 
@@ -60,14 +59,12 @@ class NoteController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'photo' => 'nullable',
         ]);
 
         // Krijo një instance të re të modelit Note
         $note = new Note();
         $note->title = $request->title;
         $note->description = $request->description;
-        $note->photo = $request->photo;
 
         // Ruaj rreshtin në bazën e të dhënave
         $note->save();
@@ -82,17 +79,22 @@ class NoteController extends Controller
         return view('notes.edit', compact('Note'));
     }
 
-    public function update(Request $request, Note $Note)
+    public function update(Request $request, Note $note)
     {
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        $Note->save();
+    
+        $note->title = $request->title;
+        $note->description = $request->description;
+    
+    
+        $note->save();
     
         return redirect()->route('notes.index')->with('success', 'Detyra u përditësua me sukses.');
     }
+    
     
 
     public function destroy(Note $Note)

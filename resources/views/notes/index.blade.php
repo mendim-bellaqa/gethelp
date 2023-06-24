@@ -40,7 +40,8 @@
                     </form>
 
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Shkyçu</a>
-                @endif
+                
+                    @endif
             </div>
         </div>
     </nav>
@@ -98,12 +99,27 @@
 
                 <div class="grid grid-cols-3 gap-4 m-auto p-8">
                     @foreach($notes as $note)
-                        <div class="bg-gray-100 p-4 mb-4 rounded-lg shadow-lg">
-                            <img src="{{ asset('storage/' . $note->photo) }}" alt="Fotoja" class="w-32 h-32 mt-3 rounded">
+                        <div class="bg-gray-100 p-16 mb-4 rounded-lg shadow-lg">
+                            <!-- <img src="{{ asset('storage/' . $note->photo) }}" alt="Fotoja" class="w-32 h-32 mt-3 rounded"> -->
                             <div class="text-center">
                                 <h2 class="text-xl text-black font-medium">{{ $note->title }}</h2>
                                 <p class="text-black">{{ $note->description }}</p>
                             </div>
+                            <div class="flex col mt-5 space-x-4 align-center justify-center">
+                            <a href="{{ route('notes.edit', $note->id) }}">
+                                <button class="block uppercase mx-auto shadow bg-gray-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded">Edito</button>
+                            </a>
+
+
+                            
+                            <form method="POST" action="{{ route('notes.destroy', $note->id) }}" style="display: inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"  button class="block uppercase mx-auto shadow bg-gray-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded">{{ __('Fshij') }}</button>
+                            </form>
+
+                            </div>
+                     
                         </div>
                     @endforeach
                 </div>

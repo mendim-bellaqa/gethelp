@@ -107,29 +107,31 @@
                 </div>
             </div>
         </div>
-       
-        <div class="max-w-md mx-auto mt-5">
-            <h1 class="text-2xl font-semibold mb-5">Ndrysho Note</h1>
-            <form action="{{ route('notes.update', $note->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="mb-4">
-                    <label for="title" class="block text-gray-700 font-medium">Titulli:</label>
-                    <input type="text" name="title" id="title" value="{{ $note->title }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                </div>
-                <div class="mb-4">
-                    <label for="description" class="block text-gray-700 font-medium">Përshkrimi:</label>
-                    <textarea name="description" id="description" rows="3" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ $note->description }}</textarea>
-                </div>
-                <div class="mb-4">
-                    <label for="photo" class="block text-gray-700 font-medium">Foto:</label>
-                    <input type="file" name="photo" id="photo" class="w-full">
-                </div>
-                <div class="mt-6">
-                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Azhurno Note</button>
-                </div>
-            </form>
+        <div class="h-screen bg-yellow-400 flex items-center justify-center">
+            <div style="width:40%" class="mt-5 bg-white rounded-lg p-8">
+                <h1 class="text-2xl font-semibold mb-5">Ndrysho Note</h1>
+                <form action="{{ route('notes.update', $Note->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-4">
+                        <label for="title" class="block text-gray-700 font-medium">Titulli:</label>
+                        <input type="text" name="title" id="title" value="{{ $Note->title }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-3 py-2">
+                    </div>
+                    <div class="mb-4">
+                        <label for="description" class="block text-gray-700 font-medium">Përshkrimi:</label>
+                        <textarea name="description" id="description" rows="3" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-3 py-2">{{ $Note->description }}</textarea>
+                    </div>
+                    <!-- <div class="mb-4">
+                        <label for="photo" class="block text-gray-700 font-medium">Foto:</label>
+                        <input type="file" name="photo" id="photo" class="w-full">
+                    </div> -->
+                    <div class="mt-6">
+                        <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Azhurno Note</button>
+                    </div>
+                </form>
+            </div>
         </div>
+
 
         <script>
             document.getElementById('user-link').addEventListener('click', function(event) {
