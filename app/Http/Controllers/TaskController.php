@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Http\Controllers\TaskController;
 
 class TaskController extends Controller
 {
@@ -61,23 +63,41 @@ class TaskController extends Controller
         return view('tasks.edit', compact('task'));
     }
 
+
     public function update(Request $request, Task $task)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'title' => 'required',
             'description' => 'required',
-            'due_date' => 'required',
+            'due_date' => 'required|date',
             'due_time' => 'required',
+            'status' => 'required|in:Kryer,Proces,Refuzuar',
         ]);
-    
-        $task->fill($request->except('_token', 'due_time'));
-    
-        $task->due_date = $request->due_date . ' ' . $request->due_time;
-        $task->save();
-    
-        return redirect()->route('tasks.index')->with('success', 'Detyra u përditësua me sukses.');
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        $dueDateTime = $request->input('due_date') . ' ' . $request->input('due_time');
+
+        $task->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'due_date' => $dueDateTime,
+            'status' => $request->input('status'),
+        ]);
+
+        return response()->json([
+            'redirect' => route('tasks.index'),
+            'message' => 'Task updated successfully!',
+        ]);
     }
     
+
+    
+
 
     public function destroy(Task $task)
     {
@@ -86,21 +106,6 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Detyra u fshi me sukses.');
     }
 
-    public function updateStatus(Request $request, $taskId)
-    {
-        $task = Task::find($taskId);
     
-        $validatedData = $request->validate([
-            'newStatus' => 'required|in:completed,in_progress,pending',
-        ]);
-    
-        $newStatus = $validatedData['newStatus'];
-    
-        $task->status = $newStatus;
-        $task->save();
-    
-        return response()->json(['message' => 'Statusi i detyrës u azhurnua me sukses.']);
-        
-    }
     
 }

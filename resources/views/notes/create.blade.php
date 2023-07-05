@@ -50,10 +50,11 @@
             </div>
         </div>
     </nav>
-    
+
     <div class="relative">
         <div id="user-widget" class=" hidden inset-x-0 bottom-0 flex flex-col items-center justify-center bg-yellow-400 text-black">
-            <div class="top-5">
+            
+        <div class="top-5">
                 <!-- component -->
                     <div class="p-5 widget-container  w-48 h-48" id="user-widget ">
                         <div class="flex h-64 justify-center">
@@ -108,34 +109,30 @@
             </div>
         </div>
        
-        <div class="sticky top-0 h-screen flex flex-row items-center justify-center justify-content-between bg-yellow-400 text-white">
-      
-            <div class="max-w-md mx-auto mt-5">
-                <h1 class="text-2xl text-black font-semibold mb-5">Krijo nje Note</h1>
-
-                <a href="/notes" class="mt-6">
-                        <button  class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Shko te Note</button>
-                    </a>
-                    <form action="{{ route('notes.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="title" class="block text-black font-medium">Titulli:</label>
-                            <input type="text" name="title" id="title" class="w-full text-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        </div>
-                        <div class="mb-4">
-                            <label for="description" class="block text-black font-medium">Përshkrimi:</label>
-                            <textarea name="description" id="description" rows="3" class="w-full border-gray-300 text-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label for="photo" class="block text-black text-black font-medium">Foto:</label>
-                            <input type="file" name="photo" id="photo" class="w-full text-black">
-                        </div>
-                        <div class="mt-6">
-                            <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Krijo Note</button>
-                        </div>
-                    </form>
+        <div class="sticky top-0 h-screen flex flex-row items-start justify-start justify-content-between bg-yellow-400 text-white p-4">
+            <a href="/notes" class="mt-2 ml-2">
+                <button class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">KTHEHU</button>
+            </a>
+            <div class="max-w-md mx-auto mt-32">
+                <h1 class="text-2xl text-black font-semibold mb-3">Krijo nje Note</h1>
+                <form action="{{ route('notes.store') }}"  method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="title" class="block text-black font-medium">Titulli:</label>
+                        <input  type="text" name="title" id="title" class="w-full h-12 text-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div class="mb-4">
+                        <label for="description" class="block text-black font-medium">Përshkrimi:</label>
+                        <textarea style="padding:30px; width:400px" name="description" id="description" rows="3" class="w-full h-24 border-gray-300 text-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                    </div>
+                    <div class="mt-6">
+                        <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Krijo Note</button>
+                    </div>
+                </form>
             </div>
         </div>
+
+
         <script>
             document.getElementById('user-link').addEventListener('click', function(event) {
             event.preventDefault();

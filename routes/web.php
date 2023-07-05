@@ -25,6 +25,13 @@ Route::get('/', function () {
 });
 
 
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+
+
+// Route::get('/admin/dashboard', function () {
+//     return view('admin.dashboard');
+// });
 
 Route::get('/profile/edit', [EditProfileController::class, 'edit'])->name('profile.edit');
 
@@ -37,7 +44,8 @@ Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show')
 Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
 Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
 Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
-Route::post('/tasks/{taskId}/update-status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
+
+
 
 
 

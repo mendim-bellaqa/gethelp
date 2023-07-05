@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/tailwindcss@1.2.0/dist/tailwind.min.css" rel="stylesheet">
+    
     <title>@yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -200,6 +201,10 @@
                 <!-- component -->
                     <div class="p-5 widget-container  w-48 h-48" id="user-widget ">
                         <div class="flex h-64 justify-center">
+                        <div id="redirect-container" style="display: none;">
+                            Detyra u përditësua me sukses. Po ju ridrejtojmë...
+                        </div>
+
                             <div class="relative ">
                             
                                 <div class="relatve   rounded-b border-t-0 z-10">
@@ -288,11 +293,14 @@
                       <div>
                         <p>{{ substr($task->description, 0, 50) }}</p>
                         <div class="relative">
-                          <div class="px-2 py-1 mt-2">
-                            <button id="show-description-btn-{{ $task->id }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mt-2 focus:outline-none">
-                              Shfaq të plotë
-                            </button>
+                        <div id="description-{{ $task->id }}" class="description" style="max-height: 0; opacity: 0;">
+                            <p>{{ $task->description }}</p>
                           </div>
+
+                          <button id="show-description-btn-{{ $task->id }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mt-2 focus:outline-none" onclick="showFullDescription({{ $task->id }})" style="display: none;">
+                            Shfaq të plotë
+                          </button>
+
                           <button id="status-button-{{ $task->id }}" class="bg-gray-800 text-white hover:bg-green-700 font-bold py-2 px-3 rounded mt-2 absolute right-0 top-0">{{ $task->status }}</button>
                         </div>
                         <div id="description-{{ $task->id }}" class="description hidden">
@@ -316,15 +324,7 @@
                         </form>
                       </span>
                     </div>
-                    <div class="relative">
-                      <select id="status-dropdown-{{ $task->id }}" class="border  border-gray-400 rounded-md px-2 py-1 mt-2">
-                        <!-- Vendosni opsionet e dropdown-it këtu -->
-                        <option value="completed">Kryer</option>
-                        <option value="in_progress">Proces</option>
-                        <option value="pending">Refuzuar</option>
-                      </select>
-                      <button onclick="onStatusChange({{ $task->id }})" class="bg-black text-white hover:bg-green-700 font-bold py-2 px-3 rounded mt-2 absolute right-0 top-0">Ruaj statusin</button>
-                    </div>
+           
                     
                   </div>
                   
@@ -348,52 +348,37 @@
 
           </script>
           
+  
   <script>
-      function onStatusChange(taskId) {
-          var dropdown = document.getElementById("status-dropdown-" + taskId);
-          var selectedStatus = dropdown.value;
+  // Thirr funksionet për çdo detyrë në faqe
+  @foreach ($tasks as $task)
+    checkDescriptionLength({{ $task->id }});
+  @endforeach
+</script>
 
-          // Përditëso statusin në databazë dhe fresko butonin në front-end
-          saveStatusToDatabase(taskId, selectedStatus);
-      }
+<script>
+  // Kontrollo gjatësinë e pershkrimit dhe shfaq apo fsheh butonin "Shfaq të plotë"
+  function checkDescriptionLength(taskId) {
+    var descriptionDiv = document.getElementById('description-' + taskId);
+    var showButton = document.getElementById('show-description-btn-' + taskId);
 
-      function saveStatusToDatabase(taskId, newStatus) {
-          var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-          var xhr = new XMLHttpRequest();
-          xhr.open("POST", "/tasks/" + taskId + "/update-status", true);
-          xhr.setRequestHeader("Content-Type", "application/json");
-          xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
-          xhr.onreadystatechange = function() {
-              if (xhr.readyState === 4) {
-                  if (xhr.status === 200) {
-                      var response = JSON.parse(xhr.responseText);
-                      var statusButton = document.getElementById("status-button-" + taskId);
-                      statusButton.textContent = response.newStatus; // Përditëso tekstin e butonit me statusin e ri
-                      showSuccessMessage(response.message); // Shfaq mesazhin e suksesit
-                      setTimeout(hideSuccessMessage, 5000); // Fshini mesazhin e suksesit pas 5 sekondash
-                  } else {
-                      console.error("Gabim gjatë ruajtjes së statusit në databazë.");
-                  }
-              }
-          };
+    if (descriptionDiv.textContent.length > 250) {
+      showButton.style.display = 'inline-block';
+    } else {
+      showButton.style.display = 'none';
+    }
+  }
 
-          var data = JSON.stringify({ newStatus: newStatus });
-          xhr.send(data);
-      }
+  // Shfaq pershkrimin e plote kur klikohet butoni "Shfaq të plotë"
+  function showFullDescription(taskId) {
+    var descriptionDiv = document.getElementById('description-' + taskId);
+    var showButton = document.getElementById('show-description-btn-' + taskId);
 
-      function showSuccessMessage(message) {
-          var successMessage = document.getElementById("success-message");
-          successMessage.classList.remove("hidden");
-          var messageText = document.createTextNode(message);
-          successMessage.innerHTML = ""; // Fshini mesazhin e mëparshëm përpara se ta përditësoni
-          successMessage.appendChild(messageText);
-      }
-
-      function hideSuccessMessage() {
-          var successMessage = document.getElementById("success-message");
-          successMessage.classList.add("hidden");
-      }
-  </script>
+    descriptionDiv.style.maxHeight = 'none';
+    descriptionDiv.style.opacity = '1';
+    showButton.style.display = 'none';
+  }
+</script>
 
 </body>
 

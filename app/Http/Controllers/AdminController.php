@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\TaskController;
+use App\Models\User;
+
 class AdminController extends Controller
 {
     public function dashboard()
-{
-    $users = User::where('role', 0)->get(); // Përdoruesit e thjesht
-    return view('admin.dashboard', compact('users'));
-}
-
+    {
+        $users = User::where('role', 0)->get(); // Përdoruesit e thjesht
+        return view('admin.dashboard', compact('users'));
+    }
 }

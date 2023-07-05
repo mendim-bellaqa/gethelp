@@ -55,22 +55,22 @@
             @csrf
             <div class="md:p-8">
                 <div class="flex-1 w-64 mb-4">
-                    <label for="title" class="block text-black font-semibold mb-2">Titulli i detyrës</label>
-                    <input type="text" name="title" id="title" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label  for="title" class="block text-black font-semibold mb-2">Titulli i detyrës</label>
+                    <input style="width:300px; padding:5px" type="text" name="title" id="title" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
             </div>
             <div class="flex-1 mb-4">
                 <label for="description" class="block text-black font-semibold mb-2">Përshkrimi i detyrës</label>
-                <input type="text" name="description" id="description" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <input style="width:400px; padding:50px" type="text"  name="description" id="description" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             </div>
             <div class="flex flex-col md:flex-row gap-4 mt-4">
                 <div class="flex-1">
                     <label for="due_date" class="block text-black font-semibold mb-2">Data e duhur</label>
-                    <input type="date" name="due_date" id="due_date" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <input style="width:200px; padding:5px" type="date" name="due_date" id="due_date" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
                 <div class="flex-1">
                     <label for="due_time" class="block text-black font-semibold mb-2">Ora e skadencës</label>
-                    <input id="due_time" type="time" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('due_time') is-invalid @enderror" name="due_time" value="{{ old('due_time') }}" required>
+                    <input style="width:190px; padding:5px" id="due_time" type="time" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('due_time') is-invalid @enderror" name="due_time" value="{{ old('due_time') }}" required>
                     @error('due_time')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
