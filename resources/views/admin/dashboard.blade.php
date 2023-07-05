@@ -49,9 +49,9 @@
         </div>
     </nav>
     
-    <div class="relative">
-        <div id="user-widget" class=" hidden inset-x-0 bottom-0 flex flex-col items-center justify-center bg-yellow-400 text-black">
-            <div class="top-5">
+    <div class="relative ">
+        <div id="user-widget" class=" hidden  inset-x-0 bottom-0 flex flex-col items-center justify-center  text-black">
+            <div class="top-5 ">
                 <!-- component -->
                     <div class="p-5 widget-container  w-48 h-48" id="user-widget ">
                         <div class="flex h-64 justify-center">
@@ -105,10 +105,12 @@
                 </div>
             </div>
         </div>
-        <div class="bg-yellow-300 text-black">
-                <div class="sticky top-0 h-screen flex flex-col items-center justify-center text-black">
-                    <div class="items-center min-h-screen bg-yellow-300 h-56">
-                        <div class="mt-5 text-center">
+
+        <div class="mb-32">
+            <div class=" text-black relative ">
+                <div class="top-0  flex flex-col  justify-center text-black">
+                    <div class="items-center mb-64  h-56">
+                        <div class="mt-5">
                             <h1 class="text-center font-bold">Te gjithë përdoruesit</h1>
                             <div class="flex items-center justify-center mt-8">
                                 <div class="w-3/4 mx-auto">
@@ -120,12 +122,62 @@
                                                 <th class="px-4 py-2 bg-gray-200">Email</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="m-16 text-center align-bottom justify-center" >
                                             @foreach ($users as $user)
                                             <tr>
-                                                <td class="px-4 py-2">{{ $user->id }}</td>
-                                                <td class="px-4 py-2">{{ $user->name }}</td>
-                                                <td class="px-4 py-2">{{ $user->email }}</td>
+                                                <td class="px-8 py-8">{{ $user->id }}</td>
+                                                <td class="px-8 py-8">{{ $user->name }}</td>
+                                                <td class="px-8 py-8">{{ $user->email }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h1 class="text-center font-mono" >Te gjitha detyrat</h1>
+                <div class="grid grid-row-4 gap-4 m-auto p-8">
+                    @foreach($tasks as $task)
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <div class="text-lg font-bold">{{ $task->title }}</div>
+                            <div class="text-gray-500">{{ $task->description }}</div>
+                            <div class="text-gray-500">{{ $task->created_at->format('d/m/Y H:i:s') }}</div>
+                            <div class="flex justify-end mt-4 justify-items-center   ">
+                                <a href="{{ route('tasks.edit', $task->id) }}">
+                                    <button class="uppercase mx-auto shadow bg-gray-800 hover:bg-indigo-700 mr-5 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded">Edito</button>
+                                </a>
+                                <form method="POST" action="{{ route('tasks.destroy', $task->id) }}" style="display: inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" button class="uppercase mx-auto shadow bg-gray-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded">{{ __('Fshij') }}</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="top-0  flex flex-col  justify-center text-black">
+                    <div class="items-center mb-64  h-56">
+                        <div class="mt-5">
+                            <h1 class="text-center font-bold">Te gjitha artikujt e ditareve</h1>
+                            <div class="flex items-center justify-center mt-8">
+                                <div class="w-3/4 mx-auto">
+                                    <table class="w-full text-center bg-white rounded-lg shadow-lg">
+                                        <thead>
+                                            <tr>
+                                                <th class="px-4 py-2 bg-gray-200">ID</th>
+                                                <th class="px-4 py-2 bg-gray-200">Emri</th>
+                                                <th class="px-4 py-2 bg-gray-200">Email</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="m-16 text-center align-bottom justify-center" >
+                                            @foreach ($notes as $note)
+                                            <tr>
+                                                <td class="px-8 py-8">{{ $note->title }}</td>
+                                                <td class="px-8 py-8">{{ $note->description }}</td>
+                                                <td class="px-8 py-8">{{ $note->created_at->format('d/m/Y H:i:s') }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -136,10 +188,9 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
+</div>
 
 <script>
     document.getElementById('user-link').addEventListener('click', function(event) {

@@ -91,7 +91,7 @@
             </div>
         </div>
 
-        <div class="relative  w-full min-h-screen">
+        <div class="relative">
             <div class="mt-5">
                 <a href="/notes/create" class="relative mt-2">
                     <button class="block uppercase mt-5 mx-auto shadow bg-indigo-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded">Krojo të re</button>
@@ -104,6 +104,7 @@
                             <div class="text-center">
                                 <h2 class="text-xl text-black font-medium">{{ $note->title }}</h2>
                                 <p class="text-black">{{ $note->description }}</p>
+                                <p class="text-gray-500 mt-2">{{ $note->created_at->format('d/m/Y H:i:s') }}</p>
                             </div>
                             <div class="flex col mt-5 space-x-4 align-center justify-center">
                             <a href="{{ route('notes.edit', $note->id) }}">
