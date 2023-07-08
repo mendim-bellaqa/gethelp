@@ -32,29 +32,31 @@ class TaskController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'due_date' => 'required',
-            'due_time' => 'required',
-        ]);
+{
+    $request->validate([
+        'title' => 'required',
+        'description' => 'required',
+        'due_date' => 'required',
+        'due_time' => 'required',
+        'category' => 'required|in:Ditore,Javore,OneTime',
+    ]);
 
-        $user = auth()->user();
+    $user = auth()->user();
 
-        if ($user->isSimpleUser() || $user->isAdmin()) {
-            $taskData = $request->except('_token', 'due_time');
-            $taskData['user_id'] = $user->id;
-            $taskData['due_date'] = $request->due_date . ' ' . $request->due_time;
+    if ($user->isSimpleUser() || $user->isAdmin()) {
+        $task = new Task();
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
+        $task->due_date = $request->input('due_date') . ' ' . $request->input('due_time');
+        $task->category = $request->input('category');
+        $task->user_id = $user->id;
+        $task->save();
 
-            $task = new Task($taskData);
-            $task->save();
-
-            return redirect()->route('tasks.index')->with('success', 'Detyra u shtua me sukses.');
-        }
-
-        return redirect()->route('login');
+        return redirect()->route('tasks.index')->with('success', 'Detyra u shtua me sukses.');
     }
+
+    return redirect()->route('login');
+}
 
 
 
@@ -72,6 +74,7 @@ class TaskController extends Controller
             'due_date' => 'required|date',
             'due_time' => 'required',
             'status' => 'required|in:Kryer,Proces,Refuzuar',
+            'category' => 'required|in:Ditore,Javore,Onetime',
         ]);
 
         if ($validator->fails()) {
@@ -87,6 +90,7 @@ class TaskController extends Controller
             'description' => $request->input('description'),
             'due_date' => $dueDateTime,
             'status' => $request->input('status'),
+            'category' => $request->input('category'),
         ]);
 
         return response()->json([

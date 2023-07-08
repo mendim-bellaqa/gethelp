@@ -73,7 +73,18 @@
                         @error('description')
                         <span class="text-red-600 text-sm mt-1">{{ $message }}</span>
                         @enderror
+                        @if (strlen($task->description) > 50)
+                            <div>
+                                <button id="show-description-btn-{{ $task->id }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mt-2 focus:outline-none" onclick="showFullDescription({{ $task->id }})" style="display: none;">
+                                    Shfaq të plotë
+                                </button>
+                                <div id="description-{{ $task->id }}" class="description hidden">
+                                    {{ $task->description }}
+                                </div>
+                            </div>
+                        @endif
                     </div>
+
 
                     @php
                         $dueDate = \Carbon\Carbon::parse($task->due_date)->format('Y-m-d');
@@ -95,13 +106,26 @@
                         @enderror
                     </div>
                     <div class="relative mt-5 mb-5 text-center">
-                        <select id="status" name="status" class="border border-gray-400 rounded-md px-2 py-1 mt-2">
-                            <option value="completed" @if($task->status == 'Kryer') selected @endif>Kryer</option>
-                            <option value="in_progress" @if($task->status == 'Proces') selected @endif>Proces</option>
-                            <option value="pending" @if($task->status == 'Refuzuar') selected @endif>Refuzuar</option>
+                        <select id="status" name="status" class="border border-gray-400 rounded-md px-4 py-3 mt-2">
+                            <option value="Kryer" @if($task->status == 'Kryer') selected @endif>Kryer</option>
+                            <option value="Proces" @if($task->status == 'Proces') selected @endif>Proces</option>
+                            <option value="Refuzuar" @if($task->status == 'Refuzuar') selected @endif>Refuzuar</option>
                         </select>
                     </div>
-                    <button type="submit" onclick="event.preventDefault(); updateTask();">Update Task</button>
+                    <div class="relative mt-5 mb-5 text-center">
+                        <select id="category" name="category" class="border border-gray-400 rounded-md px-4 py-3 mt-2">
+                            <option value="Ditore" @if($task->category == 'Ditore') selected @endif>Ditore</option>
+                            <option value="Javore" @if($task->category == 'Javore') selected @endif>Javore</option>
+                            <option value="Onetime" @if($task->category == 'Onetime') selected @endif>Onetime</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center justify-center">
+
+                        <button type="submit" onclick="event.preventDefault(); updateTask();" class="bg-yellow-200 px-12 py-4 text-2xl border-neutral-400 border-2 text-gray hover:text-black hover:shadow-[inset_13rem_0_0_0] hover:shadow-blue-400 duration-[400ms,700ms] transition-[color,box-shadow]">
+                            Rifresko
+                        </button>
+
+                    </div>
 
                 </form>
             </div>
@@ -138,6 +162,7 @@ function updateTask() {
             console.error('Gabim:', error);
         });
 }
+
 </script>
 
 </html>

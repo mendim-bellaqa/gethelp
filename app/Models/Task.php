@@ -18,6 +18,7 @@ class Task extends Model
         'user_id',
         'status',
         '_token',
+        'category',
     ];
     
 

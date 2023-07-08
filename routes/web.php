@@ -29,11 +29,8 @@ Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('adm
 
 
 
-// Route::get('/admin/dashboard', function () {
-//     return view('admin.dashboard');
-// });
-
 Route::get('/profile/edit', [EditProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/profile/update', [EditProfileController::class, 'update'])->name('profile.update');
 
 
 Route::get('/aktivitetet', [TaskController::class, 'index'])->name('tasks.index');

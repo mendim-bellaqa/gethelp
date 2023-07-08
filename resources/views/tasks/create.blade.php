@@ -56,18 +56,19 @@
             <div class="md:p-8">
                 <div class="flex-1 w-64 mb-4">
                     <label  for="title" class="block text-black font-semibold mb-2">Titulli i detyrës</label>
-                    <input style="width:300px; padding:5px" type="text" name="title" id="title" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <input style="width:650px; padding:5px" type="text" name="title" id="title" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
             </div>
             <div class="flex-1 mb-4">
                 <label for="description" class="block text-black font-semibold mb-2">Përshkrimi i detyrës</label>
-                <input style="width:400px; padding:50px" type="text"  name="description" id="description" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <input style="width:700px; padding:50px" type="text"  name="description" id="description" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             </div>
             <div class="flex flex-col md:flex-row gap-4 mt-4">
                 <div class="flex-1">
                     <label for="due_date" class="block text-black font-semibold mb-2">Data e duhur</label>
                     <input style="width:200px; padding:5px" type="date" name="due_date" id="due_date" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
+             
                 <div class="flex-1">
                     <label for="due_time" class="block text-black font-semibold mb-2">Ora e skadencës</label>
                     <input style="width:190px; padding:5px" id="due_time" type="time" class="w-full text-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('due_time') is-invalid @enderror" name="due_time" value="{{ old('due_time') }}" required>
@@ -77,6 +78,18 @@
                         </span>
                     @enderror
                 </div>
+                <div class="mb-6">
+                <label for="category" class="block text-gray-700 font-medium mb-1">Kategoria</label>
+                    <select id="category" name="category" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-purple-600" required>
+                        <option value="Ditore">Ditore</option>
+                        <option value="Javore">Javore</option>
+                        <option value="OneTime">One Time</option>
+                    </select>
+                    @error('category')
+                    <span class="text-red-600 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
             </div>
             <div class="flex justify-center mt-6">
                 <button type="submit" class="py-2 px-4 bg-gray-800 hover:bg-gray-900 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
