@@ -11,7 +11,12 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        $users = User::where('role', 0)->get(); // Përdoruesit e thjesht
+        if (auth()->user()->isAdmin()) {
+            $users = User::all();
+        } else {
+            $users = collect(); // Krijimi i një koleksioni të zbrazët për rastin kur përdoruesi nuk është Admin
+        }
+
         if (auth()->check()) {
             $user = auth()->user();
             if ($user->isAdmin()) {
@@ -21,12 +26,8 @@ class AdminController extends Controller
                 $tasks = Task::where('user_id', $user->id)->orderBy('due_date')->get();
                 $notes = Note::where('user_id', $user->id)->orderBy('title')->get();
             }
-
-           
         }
+        
         return view('admin.dashboard', compact('users', 'tasks', 'notes'));
     }
-
-   
-
 }

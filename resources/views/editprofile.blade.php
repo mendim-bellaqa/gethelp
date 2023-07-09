@@ -76,6 +76,27 @@
                         <span class="text-red-600 text-sm mt-1">{{ $message }}</span>
                         @enderror
                     </div>
+                    <div class="mb-6">
+                        <label for="description" class="block text-gray-700 font-medium mb-1">Rreth</label>
+                        <input id="description" type="text" class="border-1 rounded-r px-4 py-2 w-full" name="description" value="{{ old('description', $user->description) }}" required>
+                        @error('email')
+                        <span class="text-red-600 text-sm mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+            
+
+                        <!-- Fushat e tjera të profilit -->
+
+                        <div class="flex items-center text-lg mb-6 md:mb-8">
+                            <label for="role" class="mr-4">Roli:</label>
+                            <select id="role" class="bg-gray-200 pl-2 pr-8 py-2 md:py-4 focus:outline-none" name="role" required>
+                                <option value="0" @if($user->role == 0) selected @endif>Simple User</option>
+                                <option value="1" @if($user->role == 1) selected @endif>Admin</option>
+                            </select>
+                        </div>
+
+          
 
                     <div class="p-4 justify-center flex">
                         <button type="submit" class="text-base  undefined  hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer hover:bg-teal-700 hover:text-teal-100 bg-teal-100 text-teal-700 border duration-200 ease-in-out border-teal-600 transition">Ruaj</button>
